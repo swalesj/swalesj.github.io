@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>3D Objects</title>
+  <script src="webgl-utils.js"></script>
+  <script src="shader-utils.js"></script>
+  <script src="gl-matrix-min.js"></script>
+  <script src="Cone.js"></script>
+  <script src="Cylinder.js"></script>
+  <script src="Cube.js"></script>
+  <script src="Sphere.js"></script>
+  <script src="Ring.js"></script>
+  <script src="Torus.js"></script>
+  <script src="render.js"></script>
+  <style>
+    #controls {
+      padding: 16px;
+    }
+    li {
+      list-style-type: none;
+    }
+    .param-group {
+      border: 1px solid black;
+      padding: 8px;
+      margin: 8px;
+    }
+  </style>
+</head>
+<body onload="main()">
+<div id="controls">
+
+  <select id="menu">
+    <option value="0">Cone</option>
+    <option value="1">Cylinder</option>
+    <option value="2">Cube</option>
+    <option value="3">Sphere (Lat/Lon)</option>
+    <option value="4">Recursive Sphere</option>
+    <option value="5">Torus</option>
+    <option value="6">Ring</option>
+  </select>
+
+  <button id="insert">Insert</button>
+
+  <!-- Notice that each div below is hidden by default -->
+  <div class="param-group" hidden>
+    Cone parameters:
+    <ul>
+      <li>height 0.2 <input id="cone-height" type="range" min="0.2" max="0.9" step="0.05" value="0.5"> 0.9</li>
+      <li>radius 0.2 <input id="cone-radius" type="range" min="0.2" max="0.5" step="0.05" value="0.3"> 0.8</li>
+      <li>sub division 6 <input id="cone-subdiv" type="range" min="6" max="30" step="1" value="12"> 30</li>
+      <li>vertical sub division 1 <input id="cone-vertsubdiv" type="range" min="1" max="30" step="1" value="1"> 30</li>
+    </ul>
+  </div>
+  <div class="param-group" hidden>
+    Cylinder parameters:
+    <ul>
+      <li>height 0.2 <input id="cylinder-height" type="range" min="0.2" max="0.8" step="0.05" value="0.5"> 0.8</li>
+      <li>top radius 0.2 <input id="cylinder-topradius" type="range" min="0.2" max="0.5" step="0.05" value="0.2"> 0.8</li>
+      <li>bottom radius 0.2 <input id="cylinder-bottomradius" type="range" min="0.2" max="0.5" step="0.05" value="0.3"> 0.8</li>
+      <li>radial sub division 6 <input id="cylinder-subdiv" type="range" min="6" max="30" step="1" value="12"> 30</li>
+      <li>vertical sub division 1 <input id="cylinder-vertsubdiv" type="range" min="6" max="30" step="1" value="1"> 30</li>
+    </ul>
+  </div>
+  <div class="param-group" hidden>
+    Cube parameters:
+    <ul>
+      <li>width 0.1 <input id="cube-width" type="range" min="0.1" max="0.9" step="0.1" value="0.5"> 0.9</li>
+      <li>height 0.1 <input id="cube-height" type="range" min="0.1" max="0.9" step="0.1" value="0.5"> 0.9</li>
+      <li>depth 0.1 <input id="cube-depth" type="range" min="0.1" max="0.9" step="0.1" value="0.5"> 0.9</li>
+    </ul>
+  </div>
+  <div class="param-group" hidden>
+    Sphere parameters:
+    <li>radius 0.1 <input id="sphere-radius" type="range" min="0.1" max="0.9" step="0.1" value="0.5"> 0.9</li>
+    <li>sub divisions 6 <input id="sphere-subdiv" type="range" min="6" max="30" step="1" value="10"> 30</li>
+    <li>vertical stacks 4 <input id="sphere-vertstacks" type="range" min="4" max="30" step="1" value="10"> 30</li>
+  </div>
+  <div class="param-group" hidden>
+    Recursive Sphere parameters:
+    <!-- TODO: add your input tags here -->
+  </div>
+  <div class="param-group" hidden>
+    Torus parameters:
+    <li>outer radius 0.2 <input id="torus-outradius" type="range" min="0.2" max="0.8" step="0.1" value="0.5"> 0.8</li>
+    <li>inner radius 0.1 <input id="torus-inradius" type="range" min="0.1" max="0.7" step="0.1" value="0.4"> 0.7</li>
+    <li>sub divisions 6 <input id="torus-subdiv" type="range" min="6" max="30" step="1" value="8"> 30</li>
+    <li> sub division sub divisions 6 <input id="torus-subsubdiv" type="range" min="6" max="30" step="1" value="8"> 30</li>
+  </div>
+  <div class="param-group" hidden>
+    Ring parameters:
+    <li>outer radius 0.2 <input id="ring-outradius" type="range" min="0.2" max="0.8" step="0.1" value="0.4"> 0.8</li>
+    <li>inner radius 0.1 <input id="ring-inradius" type="range" min="0.1" max="0.7" step="0.1" value="0.3"> 0.7</li>
+    <li>height 0.1 <input id="ring-height" type="range" min="0.1" max="0.7" step="0.1" value="0.3"> 0.7</li>
+    <li>vertical stacks 6 <input id="ring-stacks" type="range" min="6" max="30" step="1" value="8"> 30</li>
+  </div>
+
+  <label>
+    Axis of rotation:
+    <input type="radio" name="rotateGroup" value="rotx" checked> X
+    <input type="radio" name="rotateGroup" value="roty"> Y
+    <input type="radio" name="rotateGroup" value="rotz"> Z
+  </label>
+
+</div>
+<canvas id="gl-canvas"></canvas>
+</body>
+</html>
